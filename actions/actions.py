@@ -32,8 +32,14 @@ class ActionInformaClima(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
 
-        # Captura a cidade da última mensagem do usuário
-        city = tracker.latest_message.get("text")
+        # Tenta pegar a entidade "city" extraída pelo Rasa
+        city = next(tracker.get_latest_entity_values("city"), None)
+
+        # Se não encontrou entidade, usa o texto bruto como fallback
+        if not city:
+            city = tracker.latest_message.get("text")
+
+        print(f"[DEBUG] Cidade capturada: {city}")
 
         # Consulta a API de clima
         weather_data = get_weather(city)
