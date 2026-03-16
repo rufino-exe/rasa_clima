@@ -9,7 +9,7 @@ def get_weather(city: str):
     try:
         url = "http://api.weatherapi.com/v1/current.json"
         params = {
-            "key": "SUA_CHAVE_AQUI",  # <-- Substitua pela sua chave da WeatherAPI
+            "key": "43dafeb2e27e4cfdab6222146261603",
             "q": city,
             "aqi": "no"
         }
@@ -32,19 +32,13 @@ class ActionInformaClima(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
 
-        # Tenta pegar a entidade "city" extraída pelo Rasa
-        city = next(tracker.get_latest_entity_values("city"), None)
+        # Captura do dado: pega a última coisa que o usuário digitou
+        city = tracker.latest_message['text']
 
-        # Se não encontrou entidade, usa o texto bruto como fallback
-        if not city:
-            city = tracker.latest_message.get("text")
-
-        print(f"[DEBUG] Cidade capturada: {city}")
-
-        # Consulta a API de clima
+        # Chamada da função de clima
         weather_data = get_weather(city)
 
-        # Monta a resposta
+        # Lógica de resposta
         if weather_data and "current" in weather_data:
             temp_c = weather_data["current"]["temp_c"]
             location = weather_data["location"]["name"]
