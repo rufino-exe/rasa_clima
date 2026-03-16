@@ -10,3 +10,8 @@ rules:
   steps:
     - intent: despedida
     - action: utter_despedida
+
+- rule: Responder desafio ao bot
+  steps:
+    - intent: desafia_bot
+    - action: utter_soubot
