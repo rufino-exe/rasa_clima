@@ -1,0 +1,17 @@
+version: "3.1"
+
+stories:
+
+- story: dialogo simples
+  steps:
+    - intent: saudacao
+    - action: utter_saudacao
+
+- story: usuario pergunda sobre o clima de uma cidade
+  steps:
+    - intent: pergunta_clima
+    - action: utter_pergunta_clima
+    - intent: informa_localizacao
+      entities:
+        - city: London
+    - action: action_informa_clima
